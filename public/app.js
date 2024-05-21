@@ -26,4 +26,5 @@ btn.addEventListener("click", () => {
         v.appendChild(d2);  
         list.appendChild(v);
     }
+    input.value = "";
 });
