@@ -7,13 +7,14 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Poppins&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <div id="container">
             <h1 id="heading">TODO LIST</h1>
             <hr>
             <input id="input" type="text" placeholder="add item..." />
+            <input id="id" type="text" value="<%=id%>" hidden>
             <button id="btn">ADD</button>
             <ul id="list">
                 <!-- <li>
@@ -22,23 +23,28 @@
                         <button>Edit</button>
                         <button>Delete</button>
                     </div>
-                </li>
-                <li>
-                    <div class="objects">new task</div>
-                    <div>
-                        <button>Edit</button>
-                        <button>Delete</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="objects">new task jsdvjksnv jwe sjd vhMmhbkbabcasjk wrhhbk fkhaefh ekh asdabola</div>
-                    <div>
-                        <button>Edit</button>
-                        <button>Delete</button>
-                    </div>
                 </li> -->
+                <!-- <% for(list of data['list']) { %>
+                    <li>
+                        <div class="objects"><%= list %></div>
+                        <div>
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </div>
+                    </li>
+                <% } %> -->
+                <% data['list'].forEach((item, index) => { %>
+                    <li data-index = "<%= index %>">
+                        <div class="objects"><%= item %></div>
+                        <div>
+                            <button class="edit-btn">Edit</button>
+                            <button class="delete-btn">Delete</button>
+                        </div>
+                    </li>
+                <% }); %>
             </ul>
         </div>
-        <script src="app.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+        <script src="/app.js"></script>
     </body>
 </html>

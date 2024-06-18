@@ -7,17 +7,18 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Poppins&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="./stylelogin.css">
+        <link rel="stylesheet" href="/stylelogin.css">
     </head>
     <body>
         <div class="container">
             <div>
                 <h1 id="heading">Enter your details</h1>
-                <form action="">
+                <br>
+                <form action="/login" method="POST">
                     <input type="text" name="username" placeholder="Username" />
                     <input type="password" name="password" placeholder="Password" />
-                    <p>Don't have an account? <a href="/home">Sign Up</a> </p>
                     <button>Submit</button>
+                    <p>Don't have an account? <a href="/register">Sign Up</a> </p>
                 </form>
             </div>
         </div>

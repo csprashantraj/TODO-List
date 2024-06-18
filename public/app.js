@@ -11,20 +11,83 @@ btn.addEventListener("click", () => {
         input.style.borderColor = "red";
     }
     else {
-        let v = document.createElement('li');
-        let d1 = document.createElement('div');
-        let d2 = document.createElement('div');
-        let b1 = document.createElement('button');
-        let b2 = document.createElement('button');
-        d1.append(s);
-        d1.classList.add("objects");
-        b1.append("Edit");
-        b2.append("Delete");
-        d2.appendChild(b1);
-        d2.appendChild(b2);
-        v.appendChild(d1);
-        v.appendChild(d2);  
-        list.appendChild(v);
+        axios.post(`http://localhost:3000/${document.getElementById('id').value}/add`, {
+            "item": `${input.value}`,
+        })
+        .then(response => {
+            if(response.data == "success") {
+                window.location.href = `http://localhost:3000/${document.getElementById('id').value}/home`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
     }
-    input.value = "";
+});
+
+// Edit a task
+const editBtns = document.querySelectorAll('.edit-btn');
+editBtns.forEach(button => {
+    button.addEventListener('click', (event) => {
+        const listItem = event.target.closest('li');
+        const index = listItem.getAttribute('data-index');
+        const itemText = listItem.querySelector('.objects').innerText;
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.value = itemText;
+        listItem.querySelector('.objects').innerHTML = '';
+        listItem.querySelector('.objects').appendChild(inputField);
+
+        const saveBtn = document.createElement('button');
+        saveBtn.innerText = 'Save';
+        listItem.querySelector('.objects').appendChild(saveBtn);
+
+        saveBtn.addEventListener('click', () => {
+            const updatedItem = inputField.value;
+            if (updatedItem.length > 0) {
+                axios.post(`http://localhost:3000/${document.getElementById('id').value}/edit`, {
+                    "index": `${index}`,
+                    "item": `${updatedItem}`,
+                })
+                    .then(response => {
+                        if (response.data == "success") {
+                            window.location.href = `http://localhost:3000/${document.getElementById('id').value}/home`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            } 
+            else {
+                inputField.setAttribute('placeholder', 'enter a valid task');
+                inputField.style.borderColor = 'red';
+            }
+        });
+    });
+});
+
+// Delete a task
+const deleteBtns = document.querySelectorAll('.delete-btn');
+deleteBtns.forEach(button => {
+    button.addEventListener('click', (event) => {
+        const listItem = event.target.closest('li');
+        const index = listItem.getAttribute('data-index');
+        const securityKey = prompt("Enter your security key to delete this task:");
+        if (securityKey) {
+            axios.post(`http://localhost:3000/${document.getElementById('id').value}/delete`, {
+                "index": `${index}`,
+                "securityKey": `${securityKey}`,
+            })
+            .then(response => {
+                if (response.data === "success") {
+                    window.location.href = `http://localhost:3000/${document.getElementById('id').value}/home`;
+                } else {
+                    alert("Incorrect security key.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    });
 });
