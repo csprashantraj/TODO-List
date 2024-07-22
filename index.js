@@ -30,7 +30,7 @@ async function main() {
 
 // Landing Route
 app.get("/", (req, res) => {
-
+    res.redirect('/login');
 });
 
 // 
