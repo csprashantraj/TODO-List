@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
 const List = require("./models/list.js");
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 main()
     .then(() => {
@@ -9,7 +12,7 @@ main()
     .catch(err => console.log(err))
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/listing');
+    await mongoose.connect(process.env.MONGO_URI);
 }
 
 const user1 = new User({

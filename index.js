@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
+const dotenv = require('dotenv');
 const methodOverride = require('method-override');
 const port = 3000;
 const User = require("./models/user.js");
@@ -15,6 +16,8 @@ app.set("views", path.join(__dirname, "/views"));
 app.use(express.urlencoded({extended : true}));
 app.use(methodOverride("_method"));
 
+dotenv.config();
+
 main()
     .then(() => {
         console.log("connection successful");
@@ -22,7 +25,7 @@ main()
     .catch(err => console.log(err))
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/listing');
+    await mongoose.connect(process.env.MONGO_URI);
 }
 
 // Landing Route
@@ -49,6 +52,7 @@ app.get("/login", (req, res) => {
 app.post("/login", async (req, res) => {
     let {username, password} = req.body;
     let data1 = await User.find({username, password});
+    console.log(data1);
     let uname = data1[0]['username'];
     let data2 = await List.find({username: uname});
     res.redirect(`/${data1[0]['_id']}/home`);
